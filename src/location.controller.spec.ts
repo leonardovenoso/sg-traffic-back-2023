@@ -12,7 +12,7 @@ describe('LocationController', () => {
     locationController = new LocationController(locationService);
   });
 
-  describe('#GET /v1/locations', () => {
+  describe('/v1/locations (GET)', () => {
     it('should return an array with locations', async () => {
       const locationDTO1 = new LocationDTO('Kallang', 1, 1, 1, 'http://image1.jpg', 'Cloudy');
       const locationDTO2 = new LocationDTO('Marine Parade', 1.1, 1.1, 1.1, 'http://image2.jpg', 'Cloudy');
