@@ -1,4 +1,5 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import { registerDecorator, ValidationOptions } from 'class-validator';
+import * as moment from "moment";
 
 export function IsStringAFormattedDate(property: string, validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
@@ -9,8 +10,8 @@ export function IsStringAFormattedDate(property: string, validationOptions?: Val
       constraints: [],
       options: validationOptions,
       validator: {
-        validate(value: any, args: ValidationArguments) {
-          return !isNaN(Date.parse(value))
+        validate(datetime: any) {
+          return  moment(datetime).isValid() && moment(datetime).year() >= 2016;
         },
       },
     });
