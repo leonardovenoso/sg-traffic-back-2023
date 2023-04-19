@@ -14,5 +14,5 @@ export const getLocationNameByLatLong = (locationLat: number, locationLong: numb
     distanceInMeters: getDistanceInMeters(weatherLocation.label_location.latitude, weatherLocation.label_location.longitude, locationLat, locationLong),
     locationName: weatherLocation.name,
   }))
-  .sort((a, b) => a.distanceInMeters - b.distanceInMeters)[0].locationName
+  .sort((a, b) => a.distanceInMeters - b.distanceInMeters)[0]?.locationName || ''
 );

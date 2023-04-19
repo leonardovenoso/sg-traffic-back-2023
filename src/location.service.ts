@@ -21,7 +21,7 @@ export class LocationService {
 
     return locations.items[0].cameras.map(loc => {
       const locationName = getLocationNameByLatLong(loc.location.latitude, loc.location.longitude, weather.area_metadata);
-      const weatherForecast = weather.items[0].forecasts.find(forecast => forecast.area === locationName).forecast;
+      const weatherForecast = weather.items[0]?.forecasts?.find(forecast => forecast.area === locationName).forecast;
       return new LocationDTO(locationName, loc.location.latitude, loc.location.longitude, loc.camera_id, loc.image, weatherForecast);
     });
   }
