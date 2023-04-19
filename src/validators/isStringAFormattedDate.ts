@@ -12,7 +12,7 @@ export function IsStringAFormattedDate(property: string, validationOptions?: Val
       validator: {
         validate(datetime: any) {    
           const date =  moment(datetime, 'YYYY-MM-DDTHH:mm:00');
-          return  date.isValid() && date.year() >= 2016;
+          return  date.isValid() && date.year() >= 2016 && date.year() <= moment().year();
         },
       },
     });

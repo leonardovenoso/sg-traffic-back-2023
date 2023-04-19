@@ -29,5 +29,11 @@ describe('LocationController', () => {
       datetimeDTO.datetime = '2';
       await expect(locationController.findAll(datetimeDTO)).rejects;
     });
+
+    it('should reject when datetime years is greater than currenet year', async () => {
+      const datetimeDTO = new DatetimeDTO();
+      datetimeDTO.datetime = '2100-04-18T19:43:00';
+      await expect(locationController.findAll(datetimeDTO)).rejects;
+    });
   });
 });
