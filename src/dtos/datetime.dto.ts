@@ -1,4 +1,4 @@
-import { IsStringAFormattedDate } from "../validators/isStringAFormattedDate";
+import { IsStringAFormattedDate } from '../validators/isStringAFormattedDate';
 
 export class DatetimeDTO {
   @IsStringAFormattedDate('')

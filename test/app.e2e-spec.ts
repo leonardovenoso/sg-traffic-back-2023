@@ -33,7 +33,6 @@ describe('LocationController (e2e)', () => {
         });
     });
   });
-  
 
   afterAll(async () => {
     await app.close();

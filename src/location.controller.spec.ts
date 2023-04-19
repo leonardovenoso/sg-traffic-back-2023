@@ -14,10 +14,26 @@ describe('LocationController', () => {
 
   describe('/v1/locations (GET)', () => {
     it('should return an array with locations when datetime is wellformed', async () => {
-      const locationDTO1 = new LocationDTO('Kallang', 1, 1, 1, 'http://image1.jpg', 'Cloudy');
-      const locationDTO2 = new LocationDTO('Marine Parade', 1.1, 1.1, 1.1, 'http://image2.jpg', 'Cloudy');
+      const locationDTO1 = new LocationDTO(
+        'Kallang',
+        1,
+        1,
+        1,
+        'http://image1.jpg',
+        'Cloudy',
+      );
+      const locationDTO2 = new LocationDTO(
+        'Marine Parade',
+        1.1,
+        1.1,
+        1.1,
+        'http://image2.jpg',
+        'Cloudy',
+      );
       const result = [locationDTO1, locationDTO2];
-      jest.spyOn(locationService, 'findAll').mockImplementation(() => Promise.resolve(result));
+      jest
+        .spyOn(locationService, 'findAll')
+        .mockImplementation(() => Promise.resolve(result));
       const datetimeDTO = new DatetimeDTO();
       datetimeDTO.datetime = '2023-04-17T07:36:00';
       const res = await locationController.findAll(datetimeDTO);

@@ -1,8 +1,11 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import * as moment from "moment";
+import * as moment from 'moment';
 
-export function IsStringAFormattedDate(property: string, validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+export function IsStringAFormattedDate(
+  property: string,
+  validationOptions?: ValidationOptions,
+) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isStringAFormattedDate',
       target: object.constructor,
@@ -10,9 +13,13 @@ export function IsStringAFormattedDate(property: string, validationOptions?: Val
       constraints: [],
       options: validationOptions,
       validator: {
-        validate(datetime: any) {    
-          const date =  moment(datetime, 'YYYY-MM-DDTHH:mm:00');
-          return  date.isValid() && date.year() >= 2016 && date.year() <= moment().year();
+        validate(datetime: any) {
+          const date = moment(datetime, 'YYYY-MM-DDTHH:mm:00');
+          return (
+            date.isValid() &&
+            date.year() >= 2016 &&
+            date.year() <= moment().year()
+          );
         },
       },
     });
