@@ -5,24 +5,34 @@ import { LocationDTO } from './dtos/location.dto';
 
 @Injectable()
 export class LocationService {
-  async findAll(datetime: string): Promise<Array<LocationDTO>> {
-    const promises = await Promise.all([
-      axios.get(
-        `https://api.data.gov.sg/v1/transport/traffic-images?date_time=${datetime}`,
-      ),
-      axios.get(
-        `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${datetime}`,
-      ),
-    ]);
+  async fetchLocations(datetime: string): Promise<Array<any>> {
+    try {
+      const promises = await Promise.all([
+        axios.get(
+          `https://api.data.gov.sg/v1/transport/traffic-images?date_time=${datetime}`,
+        ),
+        axios.get(
+          `https://api.data.gov.sg/v1/environment/2-hour-weather-forecast?date_time=${datetime}`,
+        ),
+      ]);
 
-    const locations: any = promises[0].data;
-    const weather: any = promises[1].data;
+      return [promises[0].data, promises[1].data];
+    } catch(e) {
+      return [];
+    }
+  }
+
+  async findAll(datetime: string): Promise<Array<LocationDTO>> {
+    const result = await this.fetchLocations(datetime);
+
+    const locations: any = result[0];
+    const weather: any = result[1];
 
     if (
-      Array.isArray(locations.items) &&
-      locations?.items[0].length === 0 &&
-      Array.isArray(weather.area_metadata) &&
-      weather.area_metadata.length === 0
+      !Array.isArray(locations?.items) ||
+      locations?.items[0].length === 0 ||
+      !Array.isArray(weather?.items) ||
+      weather.items?.length === 0
     ) {
       return [];
     }

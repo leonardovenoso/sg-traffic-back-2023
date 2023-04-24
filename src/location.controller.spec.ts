@@ -2,10 +2,21 @@ import { LocationController } from './location.controller';
 import { LocationService } from './location.service';
 import { LocationDTO } from './dtos/location.dto';
 import { DatetimeDTO } from './dtos/datetime.dto';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
 describe('LocationController', () => {
+  let mock;
   let locationController: LocationController;
   let locationService: LocationService;
+
+  beforeAll(() => {
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() => {
+    mock.reset();
+  });
 
   beforeEach(async () => {
     locationService = new LocationService();
@@ -50,6 +61,14 @@ describe('LocationController', () => {
       const datetimeDTO = new DatetimeDTO();
       datetimeDTO.datetime = '2100-04-18T19:43:00';
       await expect(locationController.findAll(datetimeDTO)).rejects;
+    });
+
+    it('should fail gracefully when production server is down', async () => {
+      const datetimeDTO = new DatetimeDTO();
+      datetimeDTO.datetime = '2100-04-18T19:43:00';
+      mock.onGet(`https://api.data.gov.sg/v1/transport/traffic-images?date_time=${datetimeDTO.datetime}`).networkErrorOnce();
+      const res = await locationController.findAll(datetimeDTO);
+      expect(res.length).toEqual(0);
     });
   });
 });
